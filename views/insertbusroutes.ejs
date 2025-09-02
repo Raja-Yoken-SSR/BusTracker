@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Bus to Route</title>
+    <link rel="stylesheet" href="styles/formstyles.css">
+</head>
+<body>
+    <h2>Assign Bus to Route</h2>
+    <form action="/insert-bus-route" method="POST">
+        <label for="bus_id">Select Bus</label>
+        <select id="bus_id" name="bus_id" required>
+            <!-- should be dynamivally done frm bus table -->
+            <option value="">Select Bus</option>
+            <option value="1">Bus 101</option>
+            <option value="2">Bus 102</option>
+        </select>
+
+        <label for="route_id">Select Route</label>
+        <select id="route_id" name="route_id" required>
+            <!-- Populate dynamically from routes table -->
+            <option value="">Select Route</option>
+            <option value="1">Route A</option>
+            <option value="2">Route B</option>
+        </select>
+
+        <label for="assigned_date">Assigned Date</label>
+        <input type="date" id="assigned_date" name="assigned_date" value="<?= date('Y-m-d'); ?>">
+
+        <button type="submit">Assign Bus</button>
+    </form>
+</body>
+</html>
+
+
+
+
+<!-- Action URL: /assign-bus-route → backend route to handle insertion into bus_routes table.
+
+Dropdowns: Populate <select> options dynamically from your buses and routes tables.
+
+Assigned Date: Defaults to today, can be edited if needed. -->

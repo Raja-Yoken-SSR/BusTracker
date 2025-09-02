@@ -1,0 +1,23 @@
+.puffs {
+
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    width: 500px;
+    height: 300px;
+}
+
+.form-select {
+    height:50px;
+}
+
+.btn{
+    position: absolute;
+    top:90px;
+}
+
+#admin-options{
+    position: absolute;
+    top: 40%;
+    left: 40%;
+}

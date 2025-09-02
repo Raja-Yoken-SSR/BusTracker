@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Subscription</title>
+  <link rel="stylesheet" href="styles/formstyles.css">
+</head>
+<body>
+  <h2>Add Subscription</h2>
+
+  <form id="subscriptionForm">
+    <label for="user_id">User ID:</label>
+    <input type="number" id="user_id" name="user_id" required placeholder="Enter user ID">
+
+    <label for="bus_id">Bus ID:</label>
+    <input type="number" id="bus_id" name="bus_id" required placeholder="Enter bus ID">
+
+    <label for="route_id">Route ID:</label>
+    <input type="number" id="route_id" name="route_id" required placeholder="Enter route ID">
+
+    <button type="submit">Add Subscription</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('subscriptionForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const user_id = document.getElementById('user_id').value;
+      const bus_id = document.getElementById('bus_id').value;
+      const route_id = document.getElementById('route_id').value;
+
+      try {
+        const res = await fetch('/insert-subscription', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id, bus_id, route_id })
+        });
+
+        const data = await res.text();
+        document.getElementById('result').textContent = data;
+
+      } catch(err) {
+        console.error(err);
+        document.getElementById('result').textContent = 'Error inserting subscription';
+      }
+    });
+  </script>
+</body>
+</html>

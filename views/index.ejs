@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bus Route Animation with User Input</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://unpkg.com/leaflet/dist/leaflet.css" rel="stylesheet" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+      #map {
+        height: 80vh;
+      }
+      #controls {
+        padding: 10px;
+        background: #f2f2f2;
+      }
+      #info {
+        padding: 10px;
+        background: #222;
+        color: white;
+      }
+      input,
+      button {
+        padding: 6px;
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="controls">
+  <b>Enter Route:</b><br />
+  From: <input id="from" type="text" value="Sivakasi" /> To:
+  <input id="to" type="text" value="Virudhunagar" />
+  <button onclick="startJourney()">Start Bus</button>
+
+  
+  <button onclick="window.open('/subscriptions', '_blank')">Check My Subscriptions</button>
+</div>
+
+    <div id="map"></div>
+    <div id="info">
+      Distance: <span id="distance">-</span> km | Speed:
+      <span id="speed">-</span> km/h | Total Time:
+      <span id="totaltime">-</span> min | Remaining:
+      <span id="remaining">-</span> min
+    </div>
+
+    <script>
+      var map = L.map("map").setView([9.52, 77.88], 10);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+      }).addTo(map);
+
+      var busIcon = L.icon({
+        iconUrl: "https://cdn-icons-png.flaticon.com/128/10903/10903014.png",
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+      });
+
+      var busMarker;
+      var routeLine;
+      async function notifyUser(phone, message) {
+        try {
+          let res = await fetch("/notify-user", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phone, message }),
+          });
+          let data = await res.json();
+          console.log("SMS Notification:", data);
+        } catch (err) {
+          console.error("Notification error:", err);
+        }
+      }
+
+      async function getCoordinates(place) {
+        let res = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${place}`
+        );
+        let data = await res.json();
+        if (data.length > 0) {
+          return [parseFloat(data[0].lon), parseFloat(data[0].lat)];
+        } else {
+          alert("Location not found: " + place);
+          throw new Error("Location not found");
+        }
+      }
+
+      async function startJourney() {
+        let fromPlace = document.getElementById("from").value;
+        let toPlace = document.getElementById("to").value;
+
+        let start = await getCoordinates(fromPlace);
+        let end = await getCoordinates(toPlace);
+
+        // Get driving route
+        let res = await fetch(
+          `https://router.project-osrm.org/route/v1/driving/${start[0]},${start[1]};${end[0]},${end[1]}?overview=full&geometries=geojson`
+        );
+        let data = await res.json();
+
+        let route = data.routes[0].geometry.coordinates.map((c) => [
+          c[1],
+          c[0],
+        ]);
+        let distance = data.routes[0].distance;
+        if (routeLine) map.removeLayer(routeLine);
+        if (busMarker) map.removeLayer(busMarker);
+
+        routeLine = L.polyline(route, { color: "blue" }).addTo(map);
+        map.fitBounds(routeLine.getBounds());
+
+        busMarker = L.marker(route[0], { icon: busIcon }).addTo(map);
+
+        var avgSpeed = 60;
+        var speedMS = (avgSpeed * 1000) / 3600;
+        var totalTime = distance / speedMS;
+        var totalSteps = route.length;
+        var interval = (totalTime * 1000) / totalSteps;
+
+        document.getElementById("distance").textContent = (
+          distance / 1000
+        ).toFixed(2);
+        document.getElementById("speed").textContent = avgSpeed;
+        document.getElementById("totaltime").textContent = (
+          totalTime / 60
+        ).toFixed(1);
+
+        var i = 0;
+        let smsSent = false;
+
+        function moveBus() {
+          busMarker.setLatLng(route[i]);
+
+          var progress = i / totalSteps;
+          var remainingTime = (totalTime / 60) * (1 - progress);
+
+          document.getElementById("remaining").textContent =
+            remainingTime.toFixed(1);
+
+          // 🚍 Trigger SMS once
+          if (!smsSent && remainingTime <= 5) {
+            smsSent = true;
+            notifyUser("+919952162240", "Bus will arrive in ~5 minutes!");
+          }
+
+          i++;
+          if (i < totalSteps) {
+            setTimeout(moveBus, interval);
+          }
+        }
+
+        moveBus();
+      }
+    </script>
+  </body>
+</html>

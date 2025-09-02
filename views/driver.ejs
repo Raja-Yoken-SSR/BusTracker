@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+  <body>
+    <button onclick="shareLocation()">Start Sharing Location</button>
+
+    <script>
+function shareLocation() {
+  navigator.geolocation.watchPosition(
+    pos => {
+fetch("http://192.168.1.2:8080/update-location", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    driverId: 1,
+    lat: pos.coords.latitude,
+    lng: pos.coords.longitude
+  })
+});
+
+    },
+    err => console.error(err),
+    { enableHighAccuracy: true }
+  );
+}
+
+
+</script>
+  </body>
+</html>

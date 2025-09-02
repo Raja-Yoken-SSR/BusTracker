@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <form action="/add-bus" method="POST">
+            <h2>Add New Bus</h2>
+
+            <!-- Capacity -->
+            <div>
+                <label for="capacity">Capacity:</label>
+                <input type="number" id="capacity" name="capacity" required>
+            </div>
+
+            <!-- Driver ID -->
+            <div>
+                <label for="driver_id">Driver ID:</label>
+                <input type="number" id="driver_id" name="driver_id" required>
+            </div>
+
+            <!-- Running Status (radio buttons) -->
+            <div>
+                <p>Status:</p>
+                <input type="radio" id="on_service" name="status"
+                    value="on service" checked>
+                <label for="on_service">On Service</label><br>
+
+                <input type="radio" id="out_service" name="status"
+                    value="out of service">
+                <label for="out_service">Out of Service</label><br>
+
+                <input type="radio" id="under_maintenance" name="status"
+                    value="under maintenance">
+                <label for="under_maintenance">Under Maintenance</label>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit">Add Bus</button>
+        </form>
+
+    </body>
+</html>

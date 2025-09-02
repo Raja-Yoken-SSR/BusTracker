@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Route</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        form {
+            max-width: 400px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Create Route</h2>
+    <form action="/insert-route" method="POST">
+        <label for="route_name">Route Name</label>
+        <input type="text" id="route_name" name="route_name" required>
+
+        <label for="start_location">Start Location</label>
+        <input type="text" id="start_location" name="start_location" required>
+
+        <label for="end_location">End Location</label>
+        <input type="text" id="end_location" name="end_location" required>
+
+        <button type="submit">Create Route</button>
+    </form>
+</body>
+</html>
+
+
+
+<!-- Action URL: /create-route → backend route to handle insertion into the routes table.
+
+Validation: All fields are required.
+
+Can be extended later with coordinates for better GPS tracking. -->
