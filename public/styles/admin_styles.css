@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #4A90E2, #50C9C3);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Form container */
+.form-signin {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 320px;
+}
+
+.form-signin h1 {
+    margin-bottom: 30px;
+    color: #1A3C6B;
+    font-size: 24px;
+}
+
+/* Input field */
+.form-signin .form-floating input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0 20px 0;
+    border: 1px solid #4A90E2;
+    border-radius: 8px;
+    outline: none;
+    font-size: 16px;
+}
+
+.form-signin .form-floating input:focus {
+    border-color: #1A3C6B;
+    box-shadow: 0 0 5px #1A3C6B;
+}
+
+.form-signin .form-floating label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    color: #1A3C6B;
+    font-size: 14px;
+}
+
+/* Checkbox */
+.form-signin .checkbox {
+    text-align: left;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #1A3C6B;
+}
+
+/* Submit button */
+.form-signin button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1A3C6B;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-signin button:hover {
+    background-color: #4A90E2;
+}
+
+/* Remove extra body */
+body.text-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -42,18 +42,7 @@ app.use(express.json());
 db.connect();
 
 app.get("/", (req, res) => {
-  res.render("home.ejs");
-});
-
-app.post("/submit", (req, res) => {
-  var role = req.body.role;
-  if (role == "passenger") {
-    res.render("homie.ejs");
-  } else if (role == "driver") {
-    res.render("driver.ejs");
-  } else if (role == "admin") {
-    res.render("adminoptions.ejs");
-  }
+  res.render("homie.ejs");
 });
 
 
@@ -87,7 +76,16 @@ app.post("/register", async (req, res) => {
     );
 
     console.log("New user registered:", username);
-    res.render("index.ejs"); 
+    if(role=="passenger"){
+      res.render("index.ejs"); 
+    }
+    else if(role=="driver"){
+      res.render("driver.ejs");
+    }
+    else if(role=="admin"){
+      res.render("admin.ejs");
+    }
+    
   } catch (err) {
     console.error("Error registering user:", err);
     res.status(500).send("Server error");
@@ -105,13 +103,22 @@ app.post("/login", async (req, res) => {
     ]);
     if (result.rows.length > 0) {
       const user = result.rows[0];
+      // console.log(user);
       const storedHashedPassword = user.password_hash;
       bcrypt.compare(userTypedPassword, storedHashedPassword, (err, result) => {
         if (err) {
           console.log("loggong on error:", err);
         } else {
-          if (result) {
-            res.render("index.ejs");
+          if (result) { //result is True or false
+            if(user.role=="driver"){
+              res.render("driver.ejs");
+            }            
+            else if(user.role=="passenger"){
+              res.render("index.ejs");
+            }
+            else if(user.role=="admin"){
+              res.render("admin.ejs");
+            }
           } else {
             res.send("Incorrect password");
           }
@@ -139,7 +146,10 @@ app.get("/driver-location", (req, res) => {
 app.post("/submitt", (req, res) => {
   var pass = req.body.password;
   if (pass == "1234") {
-    res.render("adminoptions.ejs");
+    res.render("admin_options.ejs");
+  }
+  else{
+    res.send("incorrect pass")
   }
 });
 
@@ -160,25 +170,25 @@ app.post("/submittt", (req, res) => {
   var action = req.body.action;
 
   if (action === "insert_driver_details") {
-    res.render("insertdriver.ejs");
+    res.render("insert_e_driver.ejs");
   } else if (action === "insert_bus_details") {
-    res.render("insertbus.ejs");
+    res.render("insert_bus.ejs");
   } else if (action === "insert_routes") {
-    res.render("insertroute.ejs");
+    res.render("insert_route.ejs");
   } else if (action === "edit_driver_details") {
-    res.render("editdriver.ejs");
+    res.render("edit_driver.ejs");
   } else if (action === "edit_bus_routes") {
-    res.render("editroute.ejs");
+    res.render("edit_route.ejs");
   } else if (action === "insert_user") {
     res.render("user.ejs");
   } else if (action === "edit_bus_details") {
     res.render("editbus.ejs");
   } else if (action === "delete_bus_details") {
-    res.render("deletbus.ejs");
+    res.render("delete_bus.ejs");
   } else if (action === "delete_driver_details") {
-    res.render("deletedriver.ejs");
+    res.render("delete_driver.ejs");
   } else if (action === "delete_bus_routes") {
-    res.render("deleteroute.ejs");
+    res.render("delete_route.ejs");
   }
 });
 
@@ -264,8 +274,6 @@ app.post("/notify-user", async (req, res) => {
     res.status(500).json({ error: "Failed to send SMS" });
   }
 });
-
-
 
 app.get("/subscriptions", (req, res) => {
   res.render("subscription.ejs");

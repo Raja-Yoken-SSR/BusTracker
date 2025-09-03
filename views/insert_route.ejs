@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Route</title>
+    <link rel="stylesheet" href="styles/formstyles.css">
+</head>
+<body>
+
+    <h2>Create Route</h2>
+
+    <form action="/insert-route" method="POST" class="futuristic-form">
+        <label for="route_name">Route Name</label>
+        <input type="text" id="route_name" name="route_name" required class="futuristic-input">
+
+        <label for="start_location">Start Location</label>
+        <input type="text" id="start_location" name="start_location" required class="futuristic-input">
+
+        <label for="end_location">End Location</label>
+        <input type="text" id="end_location" name="end_location" required class="futuristic-input">
+
+        <button type="submit" class="futuristic-button">Create Route</button>
+    </form>
+
+</body>
+</html>

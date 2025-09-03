@@ -7,22 +7,23 @@
   <link rel="stylesheet" href="styles/formstyles.css">
 </head>
 <body>
+
   <h2>Add Subscription</h2>
 
-  <form id="subscriptionForm">
+  <form id="subscriptionForm" class="futuristic-form">
     <label for="user_id">User ID:</label>
-    <input type="number" id="user_id" name="user_id" required placeholder="Enter user ID">
+    <input type="number" id="user_id" name="user_id" required placeholder="Enter user ID" class="futuristic-input">
 
     <label for="bus_id">Bus ID:</label>
-    <input type="number" id="bus_id" name="bus_id" required placeholder="Enter bus ID">
+    <input type="number" id="bus_id" name="bus_id" required placeholder="Enter bus ID" class="futuristic-input">
 
     <label for="route_id">Route ID:</label>
-    <input type="number" id="route_id" name="route_id" required placeholder="Enter route ID">
+    <input type="number" id="route_id" name="route_id" required placeholder="Enter route ID" class="futuristic-input">
 
-    <button type="submit">Add Subscription</button>
+    <button type="submit" class="futuristic-button">Add Subscription</button>
   </form>
 
-  <div id="result"></div>
+  <div id="result" style="margin-top:15px;color:#fff;"></div>
 
   <script>
     document.getElementById('subscriptionForm').addEventListener('submit', async (e) => {
@@ -48,5 +49,6 @@
       }
     });
   </script>
+
 </body>
 </html>

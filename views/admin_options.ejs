@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <link rel="stylesheet" href="styles/homestyles.css"><meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <form action="/submittt" method="POST" id="admin-options">
+            <select name="action" class="form-select"
+                aria-label="Default select example">
+                <option class="options" value="insert_bus_details">Insert Bus Details</option>
+                <option class="options" value="insert_routes">Insert Routes</option> 
+                <option class="options"  value="edit_bus_details">Edit Bus Details</option>
+                <option class="options"  value="edit_bus_routes">Edit Bus Routes</option>
+                <option class="options"  value="delete_bus_details">Delete Bus Details</option>
+                <option class="options"  value="delete_bus_routes">Delete Bus Routes</option>
+                <option class="options"  value="Dashboard">Dashboard</option>
+            </select>
+            <button type="submit" class="btn btn-dark">Submit</button>
+        </form>
+    </body>
+</html>
